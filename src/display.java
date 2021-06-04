@@ -1,10 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferStrategy;
 import java.util.Random;
 
 
-public class display extends JPanel implements ActionListener {
+public class display extends Canvas implements ActionListener,Runnable{
 
     static final int SCREEN_WIDTH = 600;
     static final int SCREEN_HEIGHT = 600;
@@ -18,34 +19,60 @@ public class display extends JPanel implements ActionListener {
     int appleX;
     int appleY;
     char direction = 'R';
-    boolean running = false;
-    Timer  timer;
+    boolean isRunning = false;
+    int fps = 30;
+    private Thread thread;
+    private BufferStrategy bs;
+
     Random random;
 
 
     display(){
         random = new Random();
         this.setPreferredSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
-        this.setBackground(Color.green);
+        this.setBackground(new Color(0x437B2A));
         this.setFocusable(true);
         this.addKeyListener(new MyKeyAdapter());
         startGame();
+        stopGame();
     }
-    public void startGame(){
-        newApple();
-        running = true;
-        timer = new Timer(DELAY,this);
-        timer.start();
-    }
-    public void PaintComp(Graphics g){
-        super.paintComponent(g);
-    }
-    public void draw(Graphics g){
 
-        g.setColor(Color.red);
-        g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
+    public static void main(String[] args) {
+        display painting = new display();
+        painting.startGame();
     }
+
+    public synchronized void startGame() {
+        thread = new Thread(this);
+        isRunning = true;
+        thread.start();
+    }
+
+    public synchronized void stopGame(){
+        isRunning= false;
+        try{
+            thread.join();
+
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+
+//    public void PaintComp(Graphics g){
+//        super.paintComponent(g);
+//    }
+    public void draw(){
+        if (bs == null) {
+            createBufferStrategy(3);
+            return;
+        }
+        g.fillOval(appleX, appleY);
+    }
+    Graphics g = bs.getDrawGraphics();
+
+
     public void newApple(){
+
         appleX = random.nextInt((int)(SCREEN_WIDTH/UNIT_SIZE))*UNIT_SIZE;
         appleY = random.nextInt((int)(SCREEN_HEIGHT/UNIT_SIZE))*UNIT_SIZE;
     }
@@ -60,9 +87,29 @@ public class display extends JPanel implements ActionListener {
     public void gameOver(){
 
     }
+    public void update(){
+
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
 
+    }
+
+    @Override
+    public void run() {
+        double deltaT = 30.0/fps;
+        long lastTime = System.currentTimeMillis();
+
+        while (isRunning) {
+            long now = System.currentTimeMillis();
+            if (now-lastTime > deltaT) {
+                update();
+                draw();
+                lastTime = now;
+            }
+
+        }
+        stopGame();
     }
 
     public class MyKeyAdapter extends KeyAdapter{
