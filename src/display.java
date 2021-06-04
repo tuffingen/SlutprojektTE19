@@ -66,10 +66,12 @@ public class display extends Canvas implements ActionListener,Runnable{
             createBufferStrategy(3);
             return;
         }
-        g.fillOval(appleX, appleY);
-    }
-    Graphics g = bs.getDrawGraphics();
 
+
+    Graphics g = bs.getDrawGraphics();
+    bs.show();
+    g.dispose();
+    }
 
     public void newApple(){
 
