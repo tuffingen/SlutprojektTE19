@@ -9,7 +9,7 @@ public class display extends Canvas implements ActionListener,Runnable{
 
     static final int SCREEN_WIDTH = 600;
     static final int SCREEN_HEIGHT = 600;
-    static final int UNIT_SIZE = 75;
+    static final int UNIT_SIZE = 25;
     static final int GAME_UNITS = (SCREEN_WIDTH*SCREEN_HEIGHT)/UNIT_SIZE;
     static final int  DELAY = 75;
     final int x[] = new int[GAME_UNITS];
@@ -23,8 +23,6 @@ public class display extends Canvas implements ActionListener,Runnable{
     int fps = 30;
     private Thread thread;
     private BufferStrategy bs;
-
-
     Random random;
 
 
@@ -35,7 +33,7 @@ public class display extends Canvas implements ActionListener,Runnable{
             frame.pack();
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setVisible(true);
-
+            random = new Random();
             isRunning = false;
 
         }
@@ -46,6 +44,7 @@ public class display extends Canvas implements ActionListener,Runnable{
     }
 
     public synchronized void startGame() {
+        newApple();
         thread = new Thread(this);
         isRunning = true;
         thread.start();
@@ -75,8 +74,14 @@ public class display extends Canvas implements ActionListener,Runnable{
         update();
         g.setColor(Color.green);
         g.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+        drawApple(g, appleX,appleY);
         g.dispose();
         bs.show();
+      }
+
+      private void drawApple(Graphics g, int appleX, int appleY){
+        g.setColor(Color.red);
+        g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
       }
 
     public void newApple(){
