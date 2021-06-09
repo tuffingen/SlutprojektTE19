@@ -19,27 +19,30 @@ public class display extends Canvas implements ActionListener,Runnable{
     int appleX;
     int appleY;
     char direction = 'R';
-    boolean isRunning = false;
+    boolean isRunning;
     int fps = 30;
     private Thread thread;
     private BufferStrategy bs;
 
+
     Random random;
 
 
-    display(){
-        random = new Random();
-        this.setPreferredSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
-        this.setBackground(new Color(0x437B2A));
-        this.setFocusable(true);
-        this.addKeyListener(new MyKeyAdapter());
-        startGame();
-        stopGame();
-    }
+    public display(){
+            JFrame frame = new JFrame("A simple painting");
+            this.setSize(SCREEN_WIDTH,SCREEN_HEIGHT);
+            frame.add(this);
+            frame.pack();
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setVisible(true);
+
+            isRunning = false;
+
+        }
+
 
     public static void main(String[] args) {
-        display painting = new display();
-        painting.startGame();
+
     }
 
     public synchronized void startGame() {
@@ -62,16 +65,19 @@ public class display extends Canvas implements ActionListener,Runnable{
 //        super.paintComponent(g);
 //    }
     public void draw(){
+        bs = getBufferStrategy();
         if (bs == null) {
             createBufferStrategy(3);
             return;
         }
+        Graphics g = bs.getDrawGraphics();
 
-
-    Graphics g = bs.getDrawGraphics();
-    bs.show();
-    g.dispose();
-    }
+        update();
+        g.setColor(Color.green);
+        g.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+        g.dispose();
+        bs.show();
+      }
 
     public void newApple(){
 
