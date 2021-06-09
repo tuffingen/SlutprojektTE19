@@ -16,8 +16,15 @@ Jag började med att fundera över vilka olika delar som spelet skulle innehåll
 att spelet behövde ett spelfält, äpplen som ska spawna random på spelfältet, ormen måste vara uppdelad i delar så att man
 kan lägga till fler "units" för varje äpple man äter. När jag var klar med det så började jag på en frame där man skulle se
 spelet på. Jag behövde sedan en run och stop metod som jag försökte fixa men fick mycket problem med, det fixades när jag 
-bytte till magnus metod då den var mycket lättare att förstå och fungerade lättare. Jag försökte komma på något sätt att
-få äpplena att spawna slumpmässigt genom att dela upp spelfältet i en osynligt "grid" där äpplerna kan spawna slumpmässigt på
+bytte till magnus metod då den var mycket lättare att förstå och fungerade lättare. Jag behövde göra så att
+ äpplerna spawnar slumpmässigt genom att dela upp spelfältet i en osynligt "grid" där äpplerna kan spawna slumpmässigt på.
+Jag behövde rita äpplen, ormens huvud och dens kropp delar, kolla så att ormen kolliderar med äpplerna och sin kropp, 
+jag skapade därför checkCollision och checkApples för att kunna göra så att spelet känner av ifall detta händer. Jag 
+använde mig utav arrayer för att känna av att ormens huvud kolliderar med äpplet för att sedan "incrimenta" både scoret
+och ormens längd. Samma med kanterna men när de kolliderar så blir slutar spelet. Sist behövde jag ett score och en game over
+screen som jag gjorde med hjälp av draw metoden för att skriva texten. Även if sats för att visa scoren och "game over" när
+man förlorar.
+
 
 
 
@@ -36,13 +43,23 @@ Format: ![Alt Text](url)
 
 ## Positiva erfarenheter
 
-Här beskriver du vad som har gått bra i ditt projekt och analyserar varför. Hur ska du upprepa framgångarna.
+Jag har lärt mig en hel del gällande att skapa ett spel med java, det känns fortfarande väldigt klurigt och det tog lång 
+tid för mig att lösa vissa problem som jag hade. Jag känner att jag börjar få kläm på att rita upp grafik med canvas osv. 
+Också att använde sig av olika matematiska tecken för att få saker på rätt plats som när jag behövde få ut äpplerna slumpmässigt
+på fältet. Jag blev även introduserad till keylistener på ett annat sätt då jag ville att ormen skulle göra 90 graders svängar
+vilket blev ett problem. Jag fick även lära mig om metoder för att starta och stoppa spelet och hur de fungerar. Jag har fått 
+prova två olika då jag försökte först med en som inte fungerade men sen när jag provade den vi hade lärt oss innan så började
+allt fungera. 
 
 ## Negativa erfarenheter
 
-Här beskriver du det som du anser har gått mindre bra med ditt projekt och analyserar hur du kan undvika detta i framtida projekt.
-
+Jag har ganska svårt med programmering så det var inte lätt för mig alls, jag hade väldigt många problem som aldrig ville lösas
+men tillslut så gick det ju sålklart. Jag hade ett problem där min JFrame inte ville visa sig pågrund av min run method som jag använde.
+Det tog lång tid innan jag fick det att fungera dels att märka att jag behövde byta och sen ändra det mesta i min kod för att
+passa till den nya run metoden som vi fick lära oss av magnus. 
 ## Sammanfattning
 
-Här redovisar du dina slutsatser, erfarenheter och lärdomar. Reflektera över din produkt och dess/dina utvecklingsmöjligheter.
-Vad kan vidareutvecklas och finns det utrymme att bygga vidare på projektet.
+Jag har lärt mig väldigt mycket under detta projekt gällande java språket, jag är fortfarande inte säker på språket men 
+jag är mer säkrare nu än innan projektet började. Det uppstod många problem som jag tillslut lyckades lösa. Spelet blev som jag ville 
+förutom att jag inte hade tänkt på att göra något som visar scoret. Jag hade från början tänkt att ormen skulle ha runda kanter men
+det blev inte av då jag inte visste hur jag skulle göra. 

@@ -32,6 +32,7 @@ public class display extends Canvas implements ActionListener,Runnable {
         frame.add(this);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.addKeyListener(new MyKeyAdapter());
         frame.setVisible(true);
         random = new Random();
         isRunning = false;
@@ -74,7 +75,11 @@ public class display extends Canvas implements ActionListener,Runnable {
         update();
         g.setColor(Color.black);
         g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-
+    if (isRunning) {
+        g.setColor(Color.white);
+        g.setFont(new Font("Ink Free", Font.BOLD, 45));
+        FontMetrics metrics = getFontMetrics(g.getFont());
+        g.drawString("Score: "+applesEaten, (SCREEN_WIDTH - metrics.stringWidth("Score: "+applesEaten))/2, g.getFont().getSize());
         drawApple(g, appleX, appleY);
         for (int i = 0; i < bodyParts; i++) {
             if (i == 0) {
@@ -86,11 +91,12 @@ public class display extends Canvas implements ActionListener,Runnable {
                 g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);
             }
         }
-
         g.dispose();
         bs.show();
-
     }
+    else gameOver(g);
+        }
+
 
     private void drawApple(Graphics g, int appleX, int appleY) {
         g.setColor(Color.red);
@@ -127,7 +133,11 @@ public class display extends Canvas implements ActionListener,Runnable {
     }
 
     public void checkApple() {
-
+        if((x[0] == appleX) && (y[0] == appleY) ){
+            bodyParts++;
+            applesEaten++;
+            newApple();
+        }
     }
 
     public void checkpoint() {
@@ -158,8 +168,15 @@ public class display extends Canvas implements ActionListener,Runnable {
         }
     }
 
-    public void gameOver() {
+    public void gameOver(Graphics g) {
+        g.setFont(new Font("Ink Free", Font.BOLD, 45));
+        FontMetrics metrics1 = getFontMetrics(g.getFont());
+        g.drawString("Score: "+applesEaten, (SCREEN_WIDTH - metrics1.stringWidth("Score: "+applesEaten))/2, g.getFont().getSize());
 
+        g.setColor(Color.white);
+        g.setFont(new Font("Ink Free", Font.BOLD, 75));
+        FontMetrics metrics2 = getFontMetrics(g.getFont());
+        g.drawString("Game Over", (SCREEN_WIDTH - metrics2.stringWidth("Game Over"))/2,SCREEN_HEIGHT/2);
     }
 
     public void update() {
