@@ -1,8 +1,8 @@
 import javax.swing.JFrame;
 
 public class fram extends JFrame {
-    fram(){
 
+    fram(){
             this.add(new display());
             this.setTitle("snake");
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
